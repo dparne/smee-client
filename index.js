@@ -1,8 +1,8 @@
 const validator = require('validator')
 const EventSource = require('eventsource')
-const superagent = require('superagent')
 const url = require('url')
 const querystring = require('querystring')
+const axios = require('axios')
 
 class Client {
   constructor ({ source, target, logger = console }) {
@@ -17,28 +17,30 @@ class Client {
 
   onmessage (msg) {
     const data = JSON.parse(msg.data)
+    const request = {}
+
+    Object.assign(request, data)
 
     const target = url.parse(this.target, true)
     const mergedQuery = Object.assign(target.query, data.query)
     target.search = querystring.stringify(mergedQuery)
 
     delete data.query
-
-    const req = superagent.post(target).send(data.body)
-
     delete data.body
 
+    const headers = {}
+
     Object.keys(data).forEach(key => {
-      req.set(key, data[key])
+      Object.assign(headers.key, data[key])
     })
 
-    req.end((err, res) => {
-      if (err) {
-        this.logger.error(err)
-      } else {
-        this.logger.info(`${req.method} ${req.url} - ${res.statusCode}`)
-      }
-    })
+    try {
+      let response = await axios.post(target, request.body, {headers});
+      this.logger.info(response)
+    } catch (err) {
+      this.logger.error(err)
+    }
+      
   }
 
   onopen () {
