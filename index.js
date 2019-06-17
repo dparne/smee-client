@@ -31,7 +31,7 @@ class Client {
     const headers = {}
 
     Object.keys(data).forEach(key => {
-      Object.assign(headers.key, data[key])
+      headers.key = data[key]
     })
 
     try {
