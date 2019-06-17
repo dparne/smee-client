@@ -31,7 +31,7 @@ class Client {
     const headers = {}
 
     Object.keys(data).forEach(key => {
-      headers.key = data[key]
+      headers[key] = data[key]
     })
 
     this.logger.info(`Headers ${JSON.stringify(headers)}`)
