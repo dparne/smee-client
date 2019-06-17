@@ -31,7 +31,9 @@ class Client {
     const headers = {}
 
     Object.keys(data).forEach(key => {
-      headers[key] = data[key]
+      if(key === 'x-github-event' || key === 'x-github-delivery') {
+        headers[key] = data[key]
+      }
     })
 
     this.logger.info(`Headers ${JSON.stringify(headers)}`)
