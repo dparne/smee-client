@@ -15,7 +15,7 @@ class Client {
     }
   }
 
-  onmessage (msg) {
+  async onmessage (msg) {
     const data = JSON.parse(msg.data)
     const request = {}
 
