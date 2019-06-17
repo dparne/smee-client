@@ -34,6 +34,8 @@ class Client {
       headers.key = data[key]
     })
 
+    this.logger.info(`Headers ${JSON.stringify(headers)}`)
+
     try {
       let response = await axios.post(target, request.body, {headers});
       this.logger.info(response)
