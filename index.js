@@ -31,7 +31,7 @@ class Client {
     const headers = {}
 
     Object.keys(data).forEach(key => {
-      if(key === 'x-github-event' || key === 'x-github-delivery') {
+      if(key === 'x-github-event' || key === 'x-github-delivery' || key === 'content-type' || key === 'content-length') {
         headers[key] = data[key]
       }
     })
